@@ -1,15 +1,14 @@
 # Slash command mapping
 
-These are natural-language conventions for AI Agents. They call the same local CLI.
+Use English slash commands only. Some Agent shells cannot parse Chinese immediately after `/`.
 
-## /同步
+## /sync
 
 Input examples:
 
 ```text
-/同步 当前文章
-/同步 /absolute/path/article.md
-/sync article.md
+/sync current article
+/sync /absolute/path/article.md
 ```
 
 Agent behavior:
@@ -20,10 +19,14 @@ Agent behavior:
 4. Run draft.
 5. Report draft `mediaId`, uploaded image count, preview path, and any warnings.
 
-## /预览
+## /preview
 
 Run preview only. Do not call WeChat APIs.
 
-## /配置公众号
+## /setup
 
 Run config init. If the user provides AppID/AppSecret, write them to local config only. Remind them to add the WeChat API outbound IP to the whitelist.
+
+## /check
+
+Run config validate and report missing credentials, default cover issues, and IP whitelist guidance.

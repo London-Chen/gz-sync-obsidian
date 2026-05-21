@@ -1,11 +1,11 @@
 # Suggested Agent Slash Commands
 
-These commands are product conventions to expose in an AI Agent that has this repo installed.
+Use English slash commands only because some Agent shells cannot parse Chinese immediately after `/`.
 
-- `/同步 <文章路径>`: run inspect -> preview -> draft.
-- `/预览 <文章路径>`: run preview only.
-- `/配置公众号`: run config init and guide AppID/AppSecret entry.
-- `/检查公众号配置`: run config validate.
+- `/sync <article path>`: run inspect -> preview -> draft.
+- `/preview <article path>`: run preview only.
+- `/setup`: run config init and guide AppID/AppSecret entry.
+- `/check`: run config validate.
 
 The implementation is the local CLI:
 
