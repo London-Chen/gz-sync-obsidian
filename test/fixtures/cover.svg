@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+  <rect width="900" height="500" fill="#F8FAF9"/>
+  <rect x="56" y="56" width="788" height="388" rx="28" fill="#2F6F5E"/>
+  <text x="450" y="250" text-anchor="middle" fill="white" font-size="48" font-family="Arial">WeChat Typeset</text>
+</svg>

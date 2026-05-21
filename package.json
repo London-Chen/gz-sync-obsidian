@@ -1,0 +1,31 @@
+{
+  "name": "wechat-typeset",
+  "version": "0.1.0",
+  "description": "Local Obsidian Markdown to WeChat draft typesetter.",
+  "type": "module",
+  "bin": {
+    "wechat-typeset": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js",
+    "fixture": "node dist/src/cli.js preview test/fixtures/sample.md",
+    "inspect": "node dist/src/cli.js inspect"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+        "gray-matter": "^4.0.3",
+    "marked": "^15.0.7",
+    "mime-types": "^2.1.35",
+    "undici": "^7.2.3",
+    "file-type": "^19.6.0"
+  },
+  "devDependencies": {
+    "@types/mime-types": "^2.1.4",
+    "@types/node": "^22.10.7",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
