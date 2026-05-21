@@ -2,13 +2,13 @@
 
 Use English slash commands only. Some Agent shells cannot parse Chinese immediately after `/`.
 
-## /sync
+## /gzh-sync
 
 Input examples:
 
 ```text
-/sync current article
-/sync /absolute/path/article.md
+/gzh-sync current article
+/gzh-sync /absolute/path/article.md
 ```
 
 Agent behavior:
@@ -19,14 +19,14 @@ Agent behavior:
 4. Run draft.
 5. Report draft `mediaId`, uploaded image count, preview path, and any warnings.
 
-## /preview
+## /gzh-preview
 
 Run preview only. Do not call WeChat APIs.
 
-## /setup
+## /gzh-setup
 
 Run config init. If the user provides AppID/AppSecret, write them to local config only. Remind them to add the WeChat API outbound IP to the whitelist.
 
-## /check
+## /gzh-check
 
 Run config validate and report missing credentials, default cover issues, and IP whitelist guidance.

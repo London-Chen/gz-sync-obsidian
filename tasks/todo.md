@@ -63,7 +63,7 @@
 
 - 已使用 skill-creator 规范封装 `skills/wechat-typeset/SKILL.md`。
 - 已添加 `skills/wechat-typeset/agents/openai.yaml`，用于 Agent UI 展示。
-- 已添加 `skills/wechat-typeset/references/setup.md` 与 `references/slash-commands.md`，说明 `/sync`、`/preview`、`/setup`、`/check` 的行为。
+- 已添加 `skills/wechat-typeset/references/setup.md` 与 `references/slash-commands.md`，说明 `/gzh-sync`、`/gzh-preview`、`/gzh-setup`、`/gzh-check` 的行为。
 - 已添加 `skills/wechat-typeset/scripts/install.sh`，用于安装依赖、构建、生成本地配置模板。
 - 已添加根目录 `slash-commands.md`，作为 GitHub 产品说明。
 - 已移除未使用的 `form-data` 依赖。

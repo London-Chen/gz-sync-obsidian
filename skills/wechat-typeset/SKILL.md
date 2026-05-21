@@ -1,6 +1,6 @@
 ---
 name: wechat-typeset
-description: Use when the user wants to publish or sync an Obsidian/Markdown article to a WeChat Official Account draft, configure WeChat AppID/AppSecret, upload article images, generate a WeChat-compatible preview, or use slash-like commands such as /sync, /preview, /setup, /check, or /draft for公众号排版同步.
+description: Use when the user wants to publish or sync an Obsidian/Markdown article to a WeChat Official Account draft, configure WeChat AppID/AppSecret, upload article images, generate a WeChat-compatible preview, or use slash-like commands such as /gzh-sync, /gzh-preview, /gzh-setup, /gzh-check, or /gzh-draft for公众号排版同步.
 metadata:
   short-description: Markdown/Obsidian to WeChat draft
 ---
@@ -11,10 +11,10 @@ Turn the user's current Markdown/Obsidian article into a WeChat Official Account
 
 ## Commands users may say
 
-- `/sync <article.md>`: inspect, preview, upload images, create WeChat draft.
-- `/preview <article.md>`: generate local preview and WeChat HTML without uploading.
-- `/setup`: guide first-run credential setup.
-- `/check`: validate local config and IP whitelist readiness.
+- `/gzh-sync <article.md>`: inspect, preview, upload images, create WeChat draft.
+- `/gzh-preview <article.md>`: generate local preview and WeChat HTML without uploading.
+- `/gzh-setup`: guide first-run credential setup.
+- `/gzh-check`: validate local config and IP whitelist readiness.
 
 ## Core workflow
 
@@ -23,7 +23,7 @@ Turn the user's current Markdown/Obsidian article into a WeChat Official Account
 3. For first run, run `node dist/src/cli.js config init` and ask the user for AppID/AppSecret if missing.
 4. Run `node dist/src/cli.js inspect "<article.md>"` and fix blocking readiness issues.
 5. Run `node dist/src/cli.js preview "<article.md>"` so the user can inspect formatting.
-6. For `/sync`, run `node dist/src/cli.js draft "<article.md>"` and report `mediaId`, uploaded image count, and preview path.
+6. For `/gzh-sync`, run `node dist/src/cli.js draft "<article.md>"` and report `mediaId`, uploaded image count, and preview path.
 
 ## Important rules
 
