@@ -1,6 +1,6 @@
 ---
 name: wechat-typeset
-description: Use when the user wants to publish or sync an Obsidian/Markdown article to a WeChat Official Account draft, configure WeChat AppID/AppSecret, upload article images, generate a WeChat-compatible preview, or use slash commands /gzh, /gzh-setup, /gzh-check, /gzh-preview, or /gzh-sync.
+description: Use when the user wants to publish or sync an Obsidian/Markdown article to a WeChat Official Account draft, configure WeChat AppID/AppSecret, upload article images, generate a WeChat-compatible preview, or use slash commands /gzh, /gzh-setup, /gzh-check, /gzh-preview, /gzh-sync, or /gzh-update.
 metadata:
   short-description: Markdown/Obsidian to WeChat draft
 ---
@@ -16,15 +16,17 @@ metadata:
 - `/gzh-check`：检查本地配置和 IP 白名单风险。
 - `/gzh-preview <article.md>`：只生成本地预览，不上传。
 - `/gzh-sync <article.md>`：检查、预览、上传图片并创建公众号草稿。
+- `/gzh-update`：从 GitHub 拉取最新代码、安装依赖并重新构建。
 
 ## 核心流程
 
 1. 找到包含 `package.json` 和 `wechat-typeset` CLI 的项目根目录。
 2. 如果依赖或构建产物缺失，运行 `npm install` 和 `npm run build`。
-3. 首次使用时运行 `node dist/src/cli.js config init`，引导用户输入 AppID、AppSecret、作者名、默认封面。
-4. 同步前运行 `node dist/src/cli.js inspect "<article.md>"` 并修复阻塞问题。
-5. 运行 `node dist/src/cli.js preview "<article.md>"` 生成本地预览。
-6. 对 `/gzh-sync`，运行 `node dist/src/cli.js draft "<article.md>"`，报告 `mediaId`、上传图片数量和预览路径。
+3. 如果用户要求更新，运行 `bash scripts/update.sh`。
+4. 首次使用时运行 `node dist/src/cli.js config init`，引导用户输入 AppID、AppSecret、作者名、默认封面。
+5. 同步前运行 `node dist/src/cli.js inspect "<article.md>"` 并修复阻塞问题。
+6. 运行 `node dist/src/cli.js preview "<article.md>"` 生成本地预览。
+7. 对 `/gzh-sync`，运行 `node dist/src/cli.js draft "<article.md>"`，报告 `mediaId`、上传图片数量和预览路径。
 
 ## 重要规则
 

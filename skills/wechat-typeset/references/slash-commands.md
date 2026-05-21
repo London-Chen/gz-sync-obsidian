@@ -39,3 +39,7 @@ Agent behavior:
 3. Run preview.
 4. Run draft.
 5. Report draft `mediaId`, uploaded image count, preview path, and any warnings.
+
+## /gzh-update
+
+Run `bash scripts/update.sh` to pull the latest GitHub code, reinstall dependencies, and rebuild. 回复用户时使用中文，不要打印敏感配置。

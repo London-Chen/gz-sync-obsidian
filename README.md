@@ -1,4 +1,4 @@
-# WeChat Typeset Skill
+# WeChat Typeset
 
 把 Obsidian / Markdown 文章一键排版并同步到微信公众号草稿箱。
 
@@ -6,11 +6,11 @@
 
 > 你不需要手写 HTML，但微信公众号草稿接口最终需要 HTML，所以本工具会在后台自动转换。
 
-## 重要说明：为什么 `/gzh` 才是入口
+## 重要说明：支持任何 AI Agent
 
-Claude Code 的 slash command 必须是真实注册的命令文件。只在文档里写 `/gzh-sync` 不会自动生效。
+这个项目不是只给 Claude Code 用。核心能力是本地 CLI，任何能运行终端命令的 AI Agent 都可以用。
 
-本项目现在提供了真实命令：
+如果你的 Agent 支持 slash command，可以使用：
 
 ```text
 /gzh
@@ -18,9 +18,10 @@ Claude Code 的 slash command 必须是真实注册的命令文件。只在文�
 /gzh-check
 /gzh-preview
 /gzh-sync
+/gzh-update
 ```
 
-如果你刚安装完但输入 `/gzh` 没反应，请重启 Claude Code，或运行 `/reload-plugins` 重新加载插件。
+如果你的 Agent 不支持 slash command，就让它直接调用 README 里的 CLI 命令。
 
 ## 适合谁
 
@@ -37,18 +38,29 @@ Claude Code 的 slash command 必须是真实注册的命令文件。只在文�
 - 正文图片上传到微信
 - 封面上传并生成 `thumb_media_id`
 - 创建微信公众号草稿
+- 通用 AI Agent Skill 封装
 - Claude Code slash commands
-- AI Agent Skill 封装
+- 一键更新到 GitHub 最新版本
 
-## 安装方式一：作为 Claude Code 插件安装
+## 安装方式一：作为通用 AI Agent Skill 安装
 
-推荐把这个仓库作为 Claude Code plugin 安装，这样 `/gzh` 才会出现在 slash command 中。
+在支持 Agent Skill 的环境中运行：
 
 ```bash
-claude plugin install London-Chen/wechat-typeset
+npx skills add https://github.com/London-Chen/wechat-typeset --skill wechat-typeset
 ```
 
-如果你是从 GitHub URL 安装：
+安装后，对 AI Agent 说：
+
+```text
+/gzh-setup
+```
+
+如果当前 Agent 不支持真正的 slash command，也可以直接说：“使用 wechat-typeset，帮我配置公众号”。
+
+## 安装方式二：作为 Claude Code 插件安装
+
+如果你使用 Claude Code，并希望 `/gzh` 出现在命令列表中，可以安装 plugin：
 
 ```bash
 claude plugin install https://github.com/London-Chen/wechat-typeset.git
@@ -59,28 +71,6 @@ claude plugin install https://github.com/London-Chen/wechat-typeset.git
 ```text
 /reload-plugins
 ```
-
-然后输入：
-
-```text
-/gzh
-```
-
-第一次使用请运行：
-
-```text
-/gzh-setup
-```
-
-## 安装方式二：作为 Skill 安装
-
-在支持 Agent Skill 的环境中运行：
-
-```bash
-npx skills add https://github.com/London-Chen/wechat-typeset --skill wechat-typeset
-```
-
-注意：这种方式会安装 Skill 指令，但不一定会注册 Claude Code slash command。Claude Code 里想直接输入 `/gzh`，请优先用 plugin 安装方式。
 
 ## 安装方式三：作为本地 CLI 使用
 
@@ -106,7 +96,7 @@ wechat-typeset preview test/fixtures/sample.md
 
 ## 第一次配置公众号
 
-在 Claude Code 中输入：
+在支持 slash command 的 AI Agent 中输入：
 
 ```text
 /gzh-setup
@@ -224,7 +214,7 @@ source_url: ""
 2. 没有 `cover` 时，使用文章第一张图片。
 3. 再没有时，使用 `defaultCover` / `WECHAT_DEFAULT_COVER`。
 
-## Claude Code Slash Commands
+## AI Agent Commands
 
 注意：斜杠后面统一用英文，避免部分 Agent 不支持 `/中文`。
 
@@ -302,6 +292,23 @@ Agent 会依次执行：
 - 上传图片数量
 - 本地预览路径
 
+
+### `/gzh-update`
+
+更新到 GitHub 最新版本。
+
+```text
+/gzh-update
+```
+
+等价 CLI：
+
+```bash
+bash scripts/update.sh
+```
+
+它会执行：拉取最新代码、安装依赖、重新构建。为避免覆盖用户修改，如果本地有未提交改动会停止更新。
+
 ## 直接使用 CLI
 
 ```bash
@@ -358,19 +365,15 @@ obsidian-plugin -> 你的 vault/.obsidian/plugins/wechat-typesetter
 
 ### 1. 为什么输入 `/gzh` 没有反应？
 
-通常是因为你只安装了 Skill，没有安装 Claude Code plugin，或者安装后没有重新加载。
+不同 AI Agent 对 slash command 的支持不同。
 
-解决：
+如果你用 Claude Code，请安装 plugin 后重启或运行 `/reload-plugins`：
 
 ```bash
 claude plugin install https://github.com/London-Chen/wechat-typeset.git
 ```
 
-然后重启 Claude Code，或输入：
-
-```text
-/reload-plugins
-```
+如果你的 Agent 不支持 slash command，请直接让它运行对应 CLI，例如 `node dist/src/cli.js preview 文章.md`。
 
 ### 2. 为什么不能直接上传 Markdown？
 

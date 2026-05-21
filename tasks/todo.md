@@ -80,3 +80,11 @@
 - 已将命令说明改为中文回复，避免返回英文。
 - 已移除代码中的个人默认作者；`config init` 生成空 author，要求用户填写自己的公众号作者名。
 - 已更新 README，说明 `/gzh` 没反应时应使用 plugin 安装并重启或 `/reload-plugins`。
+
+
+## 2026-05-21 Update Command and Agent Positioning
+
+- 用户指出不应只限制 Claude plugin，任何 AI Agent 都应可用。
+- 已将 README 和命令说明改为：核心是本地 CLI，通用 Agent Skill、Claude Code plugin、本地 CLI 都可使用。
+- 已新增 `/gzh-update` 命令与 `scripts/update.sh`，用于 `git pull --ff-only`、`npm install`、`npm run build`。
+- 更新脚本会在本地有未提交改动时停止，避免覆盖用户配置或修改。
