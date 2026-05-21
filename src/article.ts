@@ -18,7 +18,7 @@ export function parseArticle(filePathInput: string): ParsedArticle {
   const markdown = parsed.content.trim();
   const firstHeading = markdown.match(/^#\s+(.+)$/m)?.[1]?.trim();
   const title = stringValue(data.title) || firstHeading || path.basename(filePath, path.extname(filePath));
-  const author = normalizeAuthor(stringValue(data.author)) || config.author || '陈龙得';
+  const author = normalizeAuthor(stringValue(data.author)) || config.author || '';
   const digest = stringValue(data.digest) || stringValue(data.description) || createDigest(markdown);
   const sourceUrl = stringValue(data.source_url) || stringValue(data.source) || '';
   const coverValue = stringValue(data.cover);

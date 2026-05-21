@@ -1,0 +1,35 @@
+{
+  "name": "wechat-typeset",
+  "description": "Markdown/Obsidian articles to WeChat Official Account drafts with /gzh commands",
+  "author": {
+    "name": "London-Chen"
+  },
+  "userConfig": {
+    "wechatAppId": {
+      "type": "string",
+      "title": "微信公众号 AppID",
+      "description": "用于调用微信公众号草稿箱接口。也可以稍后通过 /gzh-setup 写入 config.local.json。",
+      "required": false
+    },
+    "wechatAppSecret": {
+      "type": "string",
+      "title": "微信公众号 AppSecret",
+      "description": "敏感信息，请不要提交到 GitHub。也可以稍后通过 /gzh-setup 写入 config.local.json。",
+      "sensitive": true,
+      "required": false
+    },
+    "wechatAuthor": {
+      "type": "string",
+      "title": "公众号作者名",
+      "description": "用于草稿 author 字段。不要留空，也不要使用他人的默认作者名。",
+      "required": false
+    },
+    "defaultCover": {
+      "type": "file",
+      "title": "默认封面图",
+      "description": "文章没有 cover 且正文没有图片时使用。也可以每篇文章在 frontmatter 里设置 cover。",
+      "required": false
+    }
+  },
+  "version": "0.1.0"
+}

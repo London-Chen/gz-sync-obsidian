@@ -70,3 +70,13 @@
 - `npm run build` 与 `npm test` 通过。
 - 已扫描仓库内容，真实 AppID/AppSecret 未出现在可提交文件中；`config.local.json` 仍仅本地保存且被 `.gitignore` 覆盖。
 - 尝试 `git init` 时当前环境返回 `Operation not permitted`，需要用户在本机终端或授权后初始化并推送 GitHub。
+
+
+## 2026-05-21 Slash Command and Public Defaults Fix
+
+- 用户反馈 `/gzh` 在 Claude Code 中没有反应；原因是之前只提供了 Skill 和说明，没有真实注册 Claude Code command。
+- 已新增 `.claude-plugin/plugin.json`，将仓库作为 Claude Code plugin。
+- 已新增 `commands/gzh.md`、`commands/gzh-setup.md`、`commands/gzh-check.md`、`commands/gzh-preview.md`、`commands/gzh-sync.md`。
+- 已将命令说明改为中文回复，避免返回英文。
+- 已移除代码中的个人默认作者；`config init` 生成空 author，要求用户填写自己的公众号作者名。
+- 已更新 README，说明 `/gzh` 没反应时应使用 plugin 安装并重启或 `/reload-plugins`。

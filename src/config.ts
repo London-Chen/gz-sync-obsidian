@@ -17,7 +17,7 @@ export function loadConfig(): AppConfig {
   return {
     appid: process.env.WECHAT_APPID || fileConfig.appid,
     secret: process.env.WECHAT_SECRET || fileConfig.secret,
-    author: process.env.WECHAT_AUTHOR || fileConfig.author || '陈龙得',
+    author: process.env.WECHAT_AUTHOR || fileConfig.author || '',
     defaultCover: process.env.WECHAT_DEFAULT_COVER || fileConfig.defaultCover
   };
 }
@@ -29,7 +29,7 @@ export function initConfig(): string {
   const template: AppConfig = {
     appid: '',
     secret: '',
-    author: '陈龙得',
+    author: '',
     defaultCover: '/absolute/path/to/default-cover.jpg'
   };
   fs.writeFileSync(localConfigPath, JSON.stringify(template, null, 2) + '\n');
