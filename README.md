@@ -1,34 +1,43 @@
-# WeChat Typeset
+# GZ Sync
 
-把 Obsidian / Markdown 文章一键排版并同步到微信公众号草稿箱。
+GZ Sync 是一个本地 CLI + Obsidian 插件，用来把 Obsidian / Markdown 文章一键同步到：
 
-你正常写 Markdown，AI Agent 负责做后面的事：解析文章、生成微信兼容内联 HTML、上传图片、上传封面、创建公众号草稿。
+- 微信公众号草稿箱
+- 飞书云文档
 
-> 你不需要手写 HTML，但微信公众号草稿接口最终需要 HTML，所以本工具会在后台自动转换。
+你正常写 Markdown，工具负责解析文章、生成微信兼容 HTML、上传公众号图片和封面、创建公众号草稿，并把同一篇文章导入为飞书在线文档。
 
-## 重要说明：支持任何 AI Agent
+> 重要：本工具只创建公众号草稿，不会自动群发。草稿创建后，请到公众号后台人工检查再发布。
 
-这个项目不是只给 Claude Code 用。核心能力是本地 CLI，任何能运行终端命令的 AI Agent 都可以用。
+## 最终效果
 
-如果你的 Agent 支持 slash command，可以使用：
+CLI：
 
-```text
-/gzh
-/gzh-setup
-/gzh-check
-/gzh-preview
-/gzh-sync
-/gzh-update
+```bash
+gz sync "文章.md"
 ```
 
-如果你的 Agent 不支持 slash command，就让它直接调用 README 里的 CLI 命令。
+Obsidian：
+
+```text
+命令面板 -> GZ Sync：同步当前文章到公众号和飞书
+```
+
+也可以分开执行：
+
+```bash
+gz draft "文章.md"     # 只创建微信公众号草稿
+gz feishu "文章.md"    # 只创建飞书云文档
+gz preview "文章.md"   # 只生成本地预览
+```
 
 ## 适合谁
 
 - 你平常在 Obsidian 写公众号文章。
-- 你不想每次手动调字号、行距、标题、图片。
-- 你希望在 AI Agent 里用一个命令同步到公众号草稿箱。
-- 你有微信公众号 AppID 和 AppSecret，并能配置 IP 白名单。
+- 你希望一篇 Markdown 同步到公众号草稿箱和飞书文档。
+- 你不想手动调整公众号排版、字号、行距和图片。
+- 你有微信公众号 AppID / AppSecret。
+- 你能创建飞书开放平台自建应用。
 
 ## 功能
 
@@ -38,101 +47,140 @@
 - 正文图片上传到微信
 - 封面上传并生成 `thumb_media_id`
 - 创建微信公众号草稿
-- 通用 AI Agent Skill 封装
-- Claude Code slash commands
-- 一键更新到 GitHub 最新版本
+- 导入 Markdown 并创建飞书云文档
+- Obsidian 插件配置页
+- 一键同步到公众号草稿箱和飞书
+- 保留 AI Agent / slash command 使用方式
 
-## 安装方式一：作为通用 AI Agent Skill 安装
+## 安装
 
-在支持 Agent Skill 的环境中运行：
-
-```bash
-npx skills add https://github.com/London-Chen/wechat-typeset --skill wechat-typeset
-```
-
-安装后，对 AI Agent 说：
-
-```text
-/gzh-setup
-```
-
-如果当前 Agent 不支持真正的 slash command，也可以直接说：“使用 wechat-typeset，帮我配置公众号”。
-
-## 安装方式二：作为 Claude Code 插件安装
-
-如果你使用 Claude Code，并希望 `/gzh` 出现在命令列表中，可以安装 plugin：
-
-```bash
-claude plugin install https://github.com/London-Chen/wechat-typeset.git
-```
-
-安装完成后，重启 Claude Code，或在 Claude Code 里运行：
-
-```text
-/reload-plugins
-```
-
-## 安装方式三：作为本地 CLI 使用
+### 方式一：本地 CLI
 
 ```bash
 git clone https://github.com/London-Chen/wechat-typeset.git
 cd wechat-typeset
 npm install
 npm run build
+npm link
 ```
 
 验证：
 
 ```bash
+gz preview test/fixtures/sample.md
+```
+
+如果不想 `npm link`，也可以直接运行：
+
+```bash
 node dist/src/cli.js preview test/fixtures/sample.md
 ```
 
-可选：全局链接命令。
+### 方式二：Obsidian 插件
+
+先在项目根目录构建：
 
 ```bash
-npm link
-wechat-typeset preview test/fixtures/sample.md
+npm install
+npm run build
 ```
 
-## 第一次配置公众号
-
-在支持 slash command 的 AI Agent 中输入：
+然后复制插件目录：
 
 ```text
-/gzh-setup
+obsidian-plugin -> 你的 vault/.obsidian/plugins/wechat-typesetter
 ```
 
-它会引导你填写：
+在 Obsidian 里：
 
-- 微信公众号 AppID
-- 微信公众号 AppSecret
-- 公众号作者名
-- 默认封面图片路径
+1. 打开“设置 -> 第三方插件”。
+2. 关闭安全模式，或允许第三方插件。
+3. 启用 `GZ Sync`。
+4. 打开 `GZ Sync` 插件设置页。
+5. 填写项目根目录、公众号凭证、飞书凭证。
 
-如果直接使用 CLI，运行：
+项目根目录示例：
+
+```text
+/path/to/gz-sync
+```
+
+## 为什么绑定 CLI 后还要填 AppID / Secret？
+
+CLI 绑定只是让你能在本地运行 `gz sync`，或者让 Obsidian 能调用这个命令。
+
+但微信公众号和飞书都是开放平台接口，调用接口必须证明“你有权操作这个账号/租户”。所以仍然需要：
+
+- 微信公众号 `AppID` / `AppSecret`
+- 飞书自建应用 `App ID` / `App Secret`
+
+这些凭证可以填在 Obsidian 插件设置页，也可以写入本地 `config.local.json` 或 `.env`。
+
+## 公众号配置教程
+
+### 1. 获取公众号 AppID / AppSecret
+
+1. 打开微信公众平台或微信开发者平台。
+2. 进入你的公众号后台。
+3. 找到“开发 -> 基本配置”或“开发接口管理”。
+4. 复制 `AppID`。
+5. 获取或重置 `AppSecret`。
+6. 保存好 `AppSecret`，不要发给别人。
+
+### 2. 配置 IP 白名单
+
+微信公众号接口通常要求调用机器的公网 IP 在白名单中。
+
+先运行：
 
 ```bash
-node dist/src/cli.js config init
+gz config validate
 ```
 
-它会生成本地配置文件：
+如果真正同步时微信返回类似：
+
+```text
+invalid ip xxx.xxx.xxx.xxx not in whitelist
+```
+
+请以微信错误里的 IP 为准，把它添加到公众号后台的 IP 白名单。
+
+### 3. 公众号需要填写的配置
+
+Obsidian 插件设置页填写：
+
+- 公众号 AppID
+- 公众号 AppSecret
+- 默认作者
+- 默认封面
+
+CLI 配置文件方式：
+
+```bash
+gz config init
+```
+
+生成：
 
 ```text
 config.local.json
 ```
 
-填入：
+填写：
 
 ```json
 {
   "appid": "你的公众号 AppID",
   "secret": "你的公众号 AppSecret",
   "author": "你的公众号作者名",
-  "defaultCover": "/absolute/path/to/default-cover.jpg"
+  "defaultCover": "/absolute/path/to/default-cover.jpg",
+  "feishuAppId": "",
+  "feishuAppSecret": "",
+  "feishuFolderToken": ""
 }
 ```
 
-也可以用环境变量：
+环境变量方式：
 
 ```bash
 WECHAT_APPID=你的公众号 AppID
@@ -141,45 +189,183 @@ WECHAT_AUTHOR=你的公众号作者名
 WECHAT_DEFAULT_COVER=/absolute/path/to/default-cover.jpg
 ```
 
-重要：本项目不会给作者名写死默认值。每个用户都应该填写自己的公众号作者名。
+## 飞书配置教程
 
-重要：`config.local.json` 和 `.env` 不要提交到 GitHub。项目已经默认忽略它们。
+飞书同步使用的是飞书开放平台“导入文件为云文档”的能力。流程是：
 
-## 获取 AppID 和 AppSecret
+1. 获取 `tenant_access_token`。
+2. 上传 Markdown 文件作为导入素材。
+3. 创建导入任务，把 Markdown 导入为新版飞书文档 `docx`。
+4. 轮询查询导入结果，返回飞书文档链接。
 
-1. 打开微信开发者平台：`https://developers.weixin.qq.com/platform`
-2. 选择你的公众号。
-3. 进入“开发接口管理”。
-4. 复制 `AppID`。
-5. 获取或重置 `AppSecret`。
-6. 保存到 `config.local.json` 或 `.env`。
+### 1. 创建飞书自建应用
 
-## 配置 IP 白名单
+1. 打开飞书开放平台：`https://open.feishu.cn/`。
+2. 进入“开发者后台”。
+3. 创建“企业自建应用”。
+4. 进入应用详情。
+5. 在“凭证与基础信息”里复制：
+   - `App ID`
+   - `App Secret`
 
-微信公众号接口通常要求调用机器的公网 IP 在白名单中。
+### 2. 开启飞书权限
 
-先运行：
+进入飞书开放平台应用后台：
 
 ```text
-/gzh-check
+应用详情 -> 权限管理 -> API 权限
 ```
 
-或 CLI：
+建议开启以下权限：
+
+| 权限名 | 权限标识 | 用途 |
+| --- | --- | --- |
+| 查看、创建云文档导入任务 | `docs:document:import` | 创建和查询 Markdown 导入任务 |
+| 上传图片和附件到云文档中 | `docs:document.media:upload` | 上传待导入的 Markdown 文件 |
+
+如果你不想逐项排查，也可以开启更大的云空间权限：
+
+| 权限名 | 权限标识 | 用途 |
+| --- | --- | --- |
+| 查看、评论、编辑和管理云空间中所有文件 | `drive:drive` | 覆盖上传素材、创建导入任务、查询导入结果 |
+
+推荐最小权限组合：
+
+```text
+docs:document:import
+docs:document.media:upload
+```
+
+如果要导入到某个指定飞书文件夹，还需要确保应用对该文件夹有权限。否则导入任务可能返回无权限或 `job_status=116`。
+
+### 3. 发布并安装飞书应用
+
+开启权限后，通常还需要：
+
+1. 在应用后台创建版本。
+2. 发布版本。
+3. 由企业管理员审核/启用。
+4. 确认应用已安装到当前飞书租户。
+
+如果只创建了应用但没有发布/安装，`App ID` / `App Secret` 可能能获取 token，但后续云文档接口仍可能报无权限。
+
+### 4. 配置飞书凭证
+
+Obsidian 插件设置页填写：
+
+- 飞书 App ID
+- 飞书 App Secret
+- 目标文件夹 Token，选填
+
+CLI 配置文件填写：
+
+```json
+{
+  "feishuAppId": "cli_xxx 或 cli_a1b2c3...",
+  "feishuAppSecret": "你的飞书 App Secret",
+  "feishuFolderToken": "可选，目标飞书文件夹 token"
+}
+```
+
+环境变量方式：
 
 ```bash
-node dist/src/cli.js config validate
+FEISHU_APP_ID=你的飞书自建应用 App ID
+FEISHU_APP_SECRET=你的飞书自建应用 App Secret
+FEISHU_FOLDER_TOKEN=可选，目标飞书文件夹 token
 ```
 
-如果真正同步时微信返回类似错误：
+### 5. 如何获取飞书文件夹 Token
+
+如果你希望文档导入到指定文件夹：
+
+1. 在飞书云空间打开目标文件夹。
+2. 复制浏览器地址栏链接。
+3. 链接中的文件夹 token 通常是最后一段路径或 URL 参数中的 token。
+4. 填入 `FEISHU_FOLDER_TOKEN` 或 Obsidian 插件设置里的“目标文件夹 Token”。
+
+如果不填，工具会把 `mount_key` 传空，表示导入到云空间根目录。
+
+## Obsidian 插件使用教程
+
+### 1. 填写插件设置
+
+打开：
 
 ```text
-invalid ip xxx.xxx.xxx.xxx not in whitelist
+Obsidian 设置 -> 第三方插件 -> GZ Sync -> 设置
 ```
 
-请以微信错误里的 IP 为准，把它添加到微信后台：
+填写：
+
+- 项目根目录：包含 `package.json` 和 `dist/src/cli.js` 的目录
+- 公众号 AppID
+- 公众号 AppSecret
+- 默认作者
+- 默认封面
+- 飞书 App ID
+- 飞书 App Secret
+- 飞书目标文件夹 Token，选填
+
+插件会把这些设置作为环境变量传给 CLI。你不必再手动写 `.env`。
+
+### 2. 运行同步命令
+
+打开一篇 Markdown 文章，然后打开 Obsidian 命令面板：
 
 ```text
-微信开发者平台 -> 开发接口管理 -> IP 白名单
+GZ Sync：同步当前文章到公众号和飞书
+```
+
+也可以只同步一边：
+
+```text
+GZ Sync：仅发送当前文章到公众号草稿箱
+GZ Sync：仅同步当前文章到飞书
+```
+
+## CLI 使用教程
+
+初始化配置：
+
+```bash
+gz config init
+```
+
+检查配置：
+
+```bash
+gz config validate
+```
+
+检查文章 readiness：
+
+```bash
+gz inspect "文章.md"
+```
+
+生成本地预览：
+
+```bash
+gz preview "文章.md"
+```
+
+只创建公众号草稿：
+
+```bash
+gz draft "文章.md"
+```
+
+只创建飞书文档：
+
+```bash
+gz feishu "文章.md"
+```
+
+一键同步公众号和飞书：
+
+```bash
+gz sync "文章.md"
 ```
 
 ## 推荐文章格式
@@ -214,109 +400,34 @@ source_url: ""
 2. 没有 `cover` 时，使用文章第一张图片。
 3. 再没有时，使用 `defaultCover` / `WECHAT_DEFAULT_COVER`。
 
-## AI Agent Commands
+## 输出文件
 
-注意：斜杠后面统一用英文，避免部分 Agent 不支持 `/中文`。
+预览和导出文件会写入：
 
-### `/gzh`
+```text
+dist/preview/<title>.html
+dist/output/<title>.wechat.html
+dist/output/<title>.feishu.md
+```
 
-主入口。
+## AI Agent / Slash Commands
+
+如果你的 Agent 支持 slash command，可以继续使用：
 
 ```text
 /gzh
-```
-
-会提示你先配置，或告诉你如何预览、同步文章。
-
-### `/gzh-setup`
-
-配置公众号凭证。
-
-```text
 /gzh-setup
-```
-
-会引导你填写 AppID、AppSecret、作者名、默认封面。
-
-### `/gzh-check`
-
-检查配置是否完整。
-
-```text
 /gzh-check
-```
-
-等价 CLI：
-
-```bash
-node dist/src/cli.js config validate
-```
-
-### `/gzh-preview`
-
-只生成本地预览，不调用微信接口。
-
-```text
-/gzh-preview /absolute/path/to/article.md
-```
-
-等价 CLI：
-
-```bash
-node dist/src/cli.js preview "/absolute/path/to/article.md"
-```
-
-输出：
-
-- `dist/preview/<title>.html`
-- `dist/output/<title>.wechat.html`
-
-### `/gzh-sync`
-
-同步文章到微信公众号草稿箱。
-
-```text
-/gzh-sync /absolute/path/to/article.md
-```
-
-Agent 会依次执行：
-
-1. `inspect`：检查标题、封面、图片、配置。
-2. `preview`：生成本地预览。
-3. `draft`：上传图片并创建公众号草稿。
-
-成功后会返回：
-
-- 草稿 `media_id`
-- 封面 `thumb_media_id`
-- 上传图片数量
-- 本地预览路径
-
-
-### `/gzh-update`
-
-更新到 GitHub 最新版本。
-
-```text
+/gzh-preview
+/gzh-sync
 /gzh-update
 ```
 
-等价 CLI：
+如果 Agent 不支持 slash command，就直接让它运行 CLI，例如：
 
 ```bash
-bash scripts/update.sh
-```
-
-它会执行：拉取最新代码、安装依赖、重新构建。为避免覆盖用户修改，如果本地有未提交改动会停止更新。
-
-## 直接使用 CLI
-
-```bash
-node dist/src/cli.js inspect "文章.md"
-node dist/src/cli.js preview "文章.md"
-node dist/src/cli.js draft "文章.md"
-node dist/src/cli.js config init
-node dist/src/cli.js config validate
+gz preview "文章.md"
+gz sync "文章.md"
 ```
 
 ## 默认排版参数
@@ -337,65 +448,56 @@ node dist/src/cli.js config validate
 - 三级标题：`16px`
 - 注释/来源：`12px #888888`
 
-## Obsidian 插件
-
-项目里也提供了一个很薄的 Obsidian 插件入口：`obsidian-plugin`。
-
-安装方式：
-
-1. 先运行：
-
-```bash
-npm install
-npm run build
-```
-
-2. 复制目录：
-
-```text
-obsidian-plugin -> 你的 vault/.obsidian/plugins/wechat-typesetter
-```
-
-3. 在 Obsidian 设置里启用“公众号排版器”。
-4. 打开文章，运行命令：`公众号排版：发送当前文章到草稿箱`。
-
-插件只负责读取当前文章路径，真正逻辑仍然由 CLI 完成。
-
 ## 常见问题
 
-### 1. 为什么输入 `/gzh` 没有反应？
+### 1. `gz` 命令找不到怎么办？
 
-不同 AI Agent 对 slash command 的支持不同。
-
-如果你用 Claude Code，请安装 plugin 后重启或运行 `/reload-plugins`：
+在项目根目录运行：
 
 ```bash
-claude plugin install https://github.com/London-Chen/wechat-typeset.git
+npm link
 ```
 
-如果你的 Agent 不支持 slash command，请直接让它运行对应 CLI，例如 `node dist/src/cli.js preview 文章.md`。
+或者直接用：
 
-### 2. 为什么不能直接上传 Markdown？
+```bash
+node dist/src/cli.js sync "文章.md"
+```
+
+### 2. 为什么不能直接上传 Markdown 到公众号？
 
 微信公众号草稿接口的正文 `content` 是微信可接受的 HTML。Markdown 必须先转换成微信兼容内联 HTML。
 
-### 3. 星号 `**加粗**` 会不会出现在公众号里？
+### 3. 为什么飞书还要 App ID / Secret？
 
-不会。工具会把 Markdown 加粗转换成 `<strong>...</strong>`，包括列表项里的加粗。
+因为飞书云文档属于你的企业租户。CLI 只是本地工具，必须通过飞书开放平台应用凭证获取授权后才能创建云文档。
 
-### 4. 报 `invalid ip ... not in whitelist` 怎么办？
+### 4. 公众号报 `invalid ip ... not in whitelist` 怎么办？
 
-把错误信息里的 IP 添加到微信开发者平台 IP 白名单。以微信返回的 IP 为准。
+把错误信息里的 IP 添加到微信公众平台 IP 白名单。以微信返回的 IP 为准。
 
-### 5. 报 `description size out of limit` 怎么办？
+### 5. 飞书报无权限怎么办？
+
+检查：
+
+- 应用是否开启了 `docs:document:import`。
+- 应用是否开启了 `docs:document.media:upload` 或 `drive:drive`。
+- 应用是否已经发布并安装到当前租户。
+- 如果指定了文件夹 token，应用是否有该文件夹权限。
+
+### 6. 飞书导入任务返回 `job_status=116` 怎么办？
+
+这通常表示当前身份无导入至该文件夹的权限。请换一个有权限的文件夹，或给应用开通该文件夹权限，或清空 `FEISHU_FOLDER_TOKEN` 先导入到根目录测试。
+
+### 7. 公众号报 `description size out of limit` 怎么办？
 
 工具会自动截断摘要。如果仍然报错，请手动缩短 frontmatter 里的 `digest`。
 
-### 6. 报 `author size out of limit` 怎么办？
+### 8. 公众号报 `author size out of limit` 怎么办？
 
 工具会清洗 Obsidian 的 `[[author]]` 格式。如果仍然失败，请缩短作者名。
 
-### 7. 图片为什么必须上传？
+### 9. 图片为什么必须上传？
 
 公众号正文不能引用本地图片路径。正文图片会上传到微信正文图片接口，封面会上传到微信素材接口。
 
@@ -403,6 +505,7 @@ claude plugin install https://github.com/London-Chen/wechat-typeset.git
 
 - 不要把 AppSecret 发给别人。
 - 不要把 `config.local.json` 或 `.env` 提交到 GitHub。
+- Obsidian 插件设置会保存在当前 vault 的插件数据里，请保护好 vault。
 - 本工具只创建草稿，不会自动群发。
 - 草稿创建后，请在公众号后台人工检查再发布。
 
@@ -417,3 +520,14 @@ npm test
 
 - 固定内联样式生成
 - Markdown 加粗星号不泄漏到列表项
+
+## 官方接口参考
+
+- 飞书：自建应用获取 `tenant_access_token`  
+  https://open.feishu.cn/document/server-docs/authentication-management/access-token/tenant_access_token_internal
+- 飞书：上传素材 `drive/v1/medias/upload_all`  
+  https://open.feishu.cn/document/server-docs/docs/drive-v1/media/upload_all
+- 飞书：创建导入任务 `drive/v1/import_tasks`  
+  https://open.feishu.cn/document/server-docs/docs/drive-v1/import_task/create
+- 飞书：查询导入结果 `drive/v1/import_tasks/:ticket`  
+  https://open.feishu.cn/document/server-docs/docs/drive-v1/import_task/get

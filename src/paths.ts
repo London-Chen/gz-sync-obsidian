@@ -1,7 +1,9 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
-export const projectRoot = process.cwd();
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+export const projectRoot = path.resolve(moduleDir, '../..');
 
 export function ensureDir(dir: string): void {
   fs.mkdirSync(dir, { recursive: true });

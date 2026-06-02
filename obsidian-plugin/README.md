@@ -1,10 +1,50 @@
-# 公众号排版器 Obsidian 插件
+# GZ Sync Obsidian 插件
 
-这是一个薄入口插件，核心逻辑在本项目 CLI 中。
+这是一个薄入口插件，核心逻辑在本地 GZ Sync CLI 中。
 
-## 手动安装
+## 使用入口
 
-1. 先在项目根目录运行：`npm install && npm run build`。
-2. 复制 `obsidian-plugin` 目录到你的 vault：`.obsidian/plugins/wechat-typesetter`。
-3. 在 Obsidian 设置里启用“公众号排版器”。
-4. 打开文章，运行命令：`公众号排版：发送当前文章到草稿箱`。
+启用插件后，可以通过以下方式同步：
+
+1. 左侧 ribbon 纸飞机按钮：同步当前文章到公众号和飞书。
+2. 编辑器正文区域右键：选择 `GZ Sync：同步到公众号和飞书`。
+3. 文件列表里右键 Markdown 文件：选择 `GZ Sync：同步到公众号和飞书`。
+4. 命令面板：运行 `GZ Sync：同步当前文章到公众号和飞书`。
+
+也支持单独同步：
+
+- `GZ Sync：仅同步到公众号草稿箱`
+- `GZ Sync：仅同步到飞书`
+
+## 配置
+
+打开 Obsidian 设置里的 `GZ Sync` 插件设置页，填写：
+
+- 项目根目录，可选；留空时会自动尝试插件目录和全局 `gz` 命令
+- 公众号 AppID / AppSecret
+- 默认作者
+- 默认封面
+- 飞书 App ID / App Secret
+- 飞书目标文件夹 Token，选填
+
+CLI 绑定只是让插件能调用同步程序，不等于已经获得公众号或飞书授权，所以仍然需要填写凭证。
+
+## 同步反馈
+
+点击同步后，插件不只显示临时 Notice，还会把状态写入当前文章：
+
+- Properties：`gz_sync_status`、`gz_sync_updated_at`、`gz_feishu_url`、`gz_wechat_media_id` 等。
+- 文档底部：`GZ Sync 日志`，记录开始、成功、失败和下一步。
+- 底部状态栏：显示 `GZ Sync：同步中/成功/失败`。
+
+这样即使弹窗消失，用户也能在当前文章里看到同步进度、结果链接和错误处理建议。
+
+## 路径适配
+
+插件不会默认写死某个用户的项目路径。执行同步时会按顺序寻找 CLI：
+
+1. 插件设置里的“项目根目录”，如果填写。
+2. 当前插件安装目录，如果插件目录里包含 `dist/src/cli.js`。
+3. 全局 `gz` 命令，如果用户运行过 `npm link` 或通过其他方式安装。
+
+Node 路径也可以留空。插件会自动查找常见路径，包括 Homebrew、系统路径和 NVM 的 `~/.nvm/versions/node/*/bin/node`。如果自动查找失败，再手动填写 Node 绝对路径。

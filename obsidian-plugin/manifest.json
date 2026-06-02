@@ -1,9 +1,9 @@
 {
   "id": "wechat-typesetter",
-  "name": "公众号排版器",
+  "name": "GZ Sync",
   "version": "0.1.0",
   "minAppVersion": "1.5.0",
-  "description": "Send the current Obsidian Markdown note to WeChat draft via local wechat-typeset CLI.",
+  "description": "Sync the current Obsidian Markdown note to WeChat draft and Feishu docs via local gz CLI.",
   "author": "陈龙得",
   "isDesktopOnly": true
 }

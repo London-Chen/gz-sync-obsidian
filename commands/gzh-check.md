@@ -4,7 +4,7 @@ argument-hint: ""
 allowed-tools: [Bash, Read, Glob]
 ---
 
-# 检查公众号配置
+# 检查 GZ Sync 配置
 
 请全程用中文回复。
 
@@ -16,8 +16,9 @@ node dist/src/cli.js config validate
 
 把检查结果翻译成用户能看懂的中文：
 
-- 缺 AppID：让用户运行 `/gzh-setup` 或填写 `config.local.json`。
-- 缺 AppSecret：让用户运行 `/gzh-setup` 或填写 `config.local.json`。
+- 缺微信公众号 AppID：让用户运行 `/gzh-setup` 或填写 `config.local.json`。
+- 缺微信公众号 AppSecret：让用户运行 `/gzh-setup` 或填写 `config.local.json`。
+- 缺飞书 App ID / App Secret：让用户填写飞书自建应用凭证。
 - 缺作者：让用户填写自己的公众号作者名，不要使用默认人名。
 - 缺默认封面：说明可以设置默认封面，或在文章 frontmatter 里写 `cover`。
 - IP 白名单：如果无法查询或微信报错，以微信错误里的 IP 为准。

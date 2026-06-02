@@ -63,6 +63,9 @@ export interface AppConfig {
   secret?: string;
   author: string;
   defaultCover?: string;
+  feishuAppId?: string;
+  feishuAppSecret?: string;
+  feishuFolderToken?: string;
 }
 
 export interface DraftResult {
@@ -73,4 +76,20 @@ export interface DraftResult {
   previewPath: string;
   outputPath: string;
   raw: unknown;
+}
+
+export interface FeishuResult {
+  title: string;
+  markdownPath: string;
+  fileToken: string;
+  ticket: string;
+  documentToken?: string;
+  documentUrl?: string;
+  raw: unknown;
+}
+
+export interface SyncAllResult {
+  title: string;
+  wechat: DraftResult;
+  feishu: FeishuResult;
 }

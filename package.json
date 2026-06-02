@@ -4,6 +4,7 @@
   "description": "Local Obsidian Markdown to WeChat draft typesetter.",
   "type": "module",
   "bin": {
+    "gz": "dist/src/cli.js",
     "wechat-typeset": "dist/src/cli.js"
   },
   "scripts": {

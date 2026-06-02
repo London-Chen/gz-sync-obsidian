@@ -37,8 +37,8 @@ Agent behavior:
 1. Resolve the target Markdown file. If ambiguous, ask for the path.
 2. Run inspect.
 3. Run preview.
-4. Run draft.
-5. Report draft `mediaId`, uploaded image count, preview path, and any warnings.
+4. Run sync.
+5. Report WeChat draft `mediaId`, uploaded image count, preview path, Feishu document URL, and any warnings.
 
 ## /gzh-update
 

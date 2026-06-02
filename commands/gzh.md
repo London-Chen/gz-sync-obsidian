@@ -1,10 +1,10 @@
 ---
-description: "公众号排版同步主入口：配置、检查、预览、同步文章到公众号草稿箱"
+description: "GZ Sync 主入口：配置、检查、预览、同步文章到公众号草稿箱和飞书"
 argument-hint: "[setup|check|preview|sync] [markdown-file]"
 allowed-tools: [Bash, Read, Write, Edit, Glob]
 ---
 
-# 公众号排版同步主入口
+# GZ Sync 主入口
 
 请全程用中文回复。用户输入的是：`$ARGUMENTS`
 
@@ -14,7 +14,7 @@ allowed-tools: [Bash, Read, Write, Edit, Glob]
 - `setup`：执行配置流程。
 - `check`：执行配置检查。
 - `preview <文章路径>`：生成预览。
-- `sync <文章路径>`：同步到公众号草稿箱。
+- `sync <文章路径>`：同步到公众号草稿箱和飞书云文档。
 - `update`：更新到 GitHub 最新版本。
 - 如果用户直接给了一个 `.md` 路径，按 `sync <文章路径>` 处理。
 
@@ -42,6 +42,6 @@ allowed-tools: [Bash, Read, Write, Edit, Glob]
 
 如果只是打开 `/gzh`，回复：
 
-“这是公众号排版同步工具。第一次使用请先输入 `/gzh-setup`，配置 AppID、AppSecret、作者名和默认封面。配置完成后，用 `/gzh-sync 文章路径.md` 同步到公众号草稿箱。以后需要升级时，输入 `/gzh-update`。”
+“这是公众号排版同步工具。第一次使用请先输入 `/gzh-setup`，配置公众号和飞书凭证、作者名和默认封面。配置完成后，用 `/gzh-sync 文章路径.md` 同步到公众号草稿箱和飞书。以后需要升级时，输入 `/gzh-update`。”
 
 不要用英文回复。不要泄露 AppSecret。
