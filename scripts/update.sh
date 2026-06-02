@@ -9,7 +9,7 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "当前目录不是 Git 仓库，无法自动更新。请重新 clone https://github.com/London-Chen/wechat-typeset.git" >&2
+  echo "当前目录不是 Git 仓库，无法自动更新。请重新 clone https://github.com/London-Chen/gz_sync.git" >&2
   exit 1
 fi
 

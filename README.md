@@ -57,8 +57,8 @@ gz preview "文章.md"   # 只生成本地预览
 ### 方式一：本地 CLI
 
 ```bash
-git clone https://github.com/London-Chen/wechat-typeset.git
-cd wechat-typeset
+git clone https://github.com/London-Chen/gz_sync.git
+cd gz_sync
 npm install
 npm run build
 npm link
@@ -102,7 +102,7 @@ obsidian-plugin -> 你的 vault/.obsidian/plugins/wechat-typesetter
 项目根目录示例：
 
 ```text
-/path/to/gz-sync
+/path/to/gz_sync
 ```
 
 ## 为什么绑定 CLI 后还要填 AppID / Secret？

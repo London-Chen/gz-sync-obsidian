@@ -1,5 +1,5 @@
 {
-  "name": "wechat-typeset",
+  "name": "gz_sync",
   "version": "0.1.0",
   "description": "Local Obsidian Markdown to WeChat draft typesetter.",
   "type": "module",

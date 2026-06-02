@@ -20,7 +20,7 @@ metadata:
 
 ## 核心流程
 
-1. 找到包含 `package.json` 和 `wechat-typeset` CLI 的项目根目录。
+1. 找到包含 `package.json` 和 `gz` CLI 的项目根目录。
 2. 如果依赖或构建产物缺失，运行 `npm install` 和 `npm run build`。
 3. 如果用户要求更新，运行 `bash scripts/update.sh`。
 4. 首次使用时运行 `node dist/src/cli.js config init`，引导用户输入 AppID、AppSecret、作者名、默认封面。

@@ -14,7 +14,7 @@ allowed-tools: [Bash, Read, Write, Edit, Glob]
 
 ## 执行步骤
 
-1. 找到当前项目中的 `wechat-typeset` 仓库。如果当前目录不是仓库，请优先检查当前目录和常见位置。
+1. 找到当前项目中的 `gz_sync` 仓库。如果当前目录不是仓库，请优先检查当前目录和常见位置。
 2. 如果依赖或构建产物不存在，运行 `npm install` 和 `npm run build`。
 3. 运行 `node dist/src/cli.js config init` 生成 `config.local.json`。
 4. 如果用户已经在命令参数或消息里提供 AppID / AppSecret，把它们写入 `config.local.json`。
