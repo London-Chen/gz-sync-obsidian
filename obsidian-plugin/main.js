@@ -67,19 +67,19 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
 
     this.addCommand({
       id: 'sync-current-note-to-wechat-and-feishu',
-      name: 'GZ Sync：同步当前文章到公众号和飞书',
+      name: '同步当前文章到公众号和飞书',
       callback: () => this.runForCurrentNote('sync', '正在同步到公众号和飞书...')
     });
 
     this.addCommand({
       id: 'send-current-note-to-wechat-draft',
-      name: 'GZ Sync：仅发送当前文章到公众号草稿箱',
+      name: '仅发送当前文章到公众号草稿箱',
       callback: () => this.runForCurrentNote('draft', '正在生成公众号草稿...')
     });
 
     this.addCommand({
       id: 'send-current-note-to-feishu',
-      name: 'GZ Sync：仅同步当前文章到飞书',
+      name: '仅同步当前文章到飞书',
       callback: () => this.runForCurrentNote('feishu', '正在同步到飞书...')
     });
   }
@@ -152,8 +152,10 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
   }
 
   getPluginDir(vaultBasePath) {
+    if (this.manifest && this.manifest.dir) return path.join(vaultBasePath, this.manifest.dir);
     const pluginId = this.manifest && this.manifest.id ? this.manifest.id : 'wechat-typesetter';
-    return path.join(vaultBasePath, '.obsidian/plugins', pluginId);
+    const configDir = this.app.vault.configDir || '.obsidian';
+    return path.join(vaultBasePath, configDir, 'plugins', pluginId);
   }
 
   resolveNodePath(env) {
@@ -295,11 +297,11 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
     const heading = '## GZ Sync 日志';
     const stamp = this.formatTime(date);
     const entry = [`- ${stamp}`, ...lines.map((line) => `  - ${line}`)].join('\n');
-    const content = await this.app.vault.read(file);
-    const next = content.includes(heading)
-      ? content.replace(heading, `${heading}\n${entry}`)
-      : `${content.trimEnd()}\n\n${heading}\n${entry}\n`;
-    await this.app.vault.modify(file, next);
+    await this.app.vault.process(file, (content) => {
+      return content.includes(heading)
+        ? content.replace(heading, `${heading}\n${entry}`)
+        : `${content.trimEnd()}\n\n${heading}\n${entry}\n`;
+    });
   }
 
   summarizeError(message) {
@@ -384,18 +386,18 @@ class WechatTypesetterSettingTab extends PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl('h2', { text: 'GZ Sync 设置' });
+    new Setting(containerEl).setName('GZ Sync').setHeading();
     containerEl.createEl('p', { text: 'CLI 只负责执行同步；公众号和飞书开放平台仍需要各自的应用凭证。凭证会保存在当前 Obsidian vault 的插件数据里。' });
 
     this.addText('项目根目录', '可选；包含 package.json 和 dist/src/cli.js 的目录。留空时自动尝试插件目录和全局 gz 命令。', 'projectRoot');
     this.addText('Node 路径', '可选；Node.js 可执行文件绝对路径。留空时自动查找 node。', 'nodePath');
-    containerEl.createEl('h3', { text: '微信公众号' });
+    new Setting(containerEl).setName('微信公众号').setHeading();
     this.addText('AppID', '微信公众号后台的 AppID', 'wechatAppId');
     this.addText('AppSecret', '微信公众号后台的 AppSecret', 'wechatSecret', true);
     this.addText('默认作者', '没有 frontmatter author 时使用', 'author');
     this.addText('默认封面', '没有 frontmatter cover 时使用，填写本地绝对路径或 URL', 'defaultCover');
 
-    containerEl.createEl('h3', { text: '飞书' });
+    new Setting(containerEl).setName('飞书').setHeading();
     this.addText('App ID', '飞书开放平台自建应用的 App ID', 'feishuAppId');
     this.addText('App Secret', '飞书开放平台自建应用的 App Secret', 'feishuAppSecret', true);
     this.addText('目标文件夹 Token', '可选；为空时使用飞书接口默认位置', 'feishuFolderToken');
