@@ -1,5 +1,9 @@
 # GZH Sync
 
+GZH Sync is a local CLI and community plugin that syncs the current Markdown note to WeChat Official Account drafts and Feishu Docs. It parses Markdown, generates WeChat-compatible HTML, uploads images and covers, creates a WeChat draft, and imports the same article into an online Feishu document.
+
+Important: this tool only creates WeChat drafts. It never publishes articles automatically; review every draft in the WeChat admin before publishing.
+
 GZH Sync 是一个本地 CLI + Obsidian 插件，用来把 Obsidian / Markdown 文章一键同步到：
 
 - 微信公众号草稿箱
