@@ -88,7 +88,7 @@ npm run build
 然后复制插件目录：
 
 ```text
-obsidian-plugin -> 你的 vault/.obsidian/plugins/gz-sync-obsidian
+obsidian-plugin -> 你的 vault/.obsidian/plugins/gz-sync
 ```
 
 在 Obsidian 里：
