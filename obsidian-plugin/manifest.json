@@ -1,9 +1,9 @@
 {
   "id": "gz-sync",
   "name": "GZH Sync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "minAppVersion": "1.5.0",
-  "description": "Sync the current Obsidian Markdown note to WeChat draft and Feishu docs via local gz CLI.",
+  "description": "Sync the current Markdown note to WeChat drafts and Feishu docs via local gz CLI.",
   "author": "陈龙得",
   "isDesktopOnly": true
 }
