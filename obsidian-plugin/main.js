@@ -20,26 +20,26 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
     this.addSettingTab(new WechatTypesetterSettingTab(this.app, this));
     this.statusBar = this.addStatusBarItem();
-    this.statusBar.setText('GZ Sync：待命');
+    this.statusBar.setText('GZH Sync：待命');
 
-    this.addRibbonIcon('send-plane', 'GZ Sync：同步当前文章到公众号和飞书', () => {
+    this.addRibbonIcon('send-plane', 'GZH Sync：同步当前文章到公众号和飞书', () => {
       this.runForCurrentNote('sync', '正在同步到公众号和飞书...');
     });
 
     this.registerEvent(this.app.workspace.on('editor-menu', (menu) => {
       menu.addSeparator();
       menu.addItem((item) => {
-        item.setTitle('GZ Sync：同步到公众号和飞书')
+        item.setTitle('GZH Sync：同步到公众号和飞书')
           .setIcon('send-plane')
           .onClick(() => this.runForCurrentNote('sync', '正在同步到公众号和飞书...'));
       });
       menu.addItem((item) => {
-        item.setTitle('GZ Sync：仅同步到公众号草稿箱')
+        item.setTitle('GZH Sync：仅同步到公众号草稿箱')
           .setIcon('file-text')
           .onClick(() => this.runForCurrentNote('draft', '正在生成公众号草稿...'));
       });
       menu.addItem((item) => {
-        item.setTitle('GZ Sync：仅同步到飞书')
+        item.setTitle('GZH Sync：仅同步到飞书')
           .setIcon('files')
           .onClick(() => this.runForCurrentNote('feishu', '正在同步到飞书...'));
       });
@@ -49,17 +49,17 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
       if (!file || file.extension !== 'md') return;
       menu.addSeparator();
       menu.addItem((item) => {
-        item.setTitle('GZ Sync：同步到公众号和飞书')
+        item.setTitle('GZH Sync：同步到公众号和飞书')
           .setIcon('send-plane')
           .onClick(() => this.runForFile(file, 'sync', '正在同步到公众号和飞书...'));
       });
       menu.addItem((item) => {
-        item.setTitle('GZ Sync：仅同步到公众号草稿箱')
+        item.setTitle('GZH Sync：仅同步到公众号草稿箱')
           .setIcon('file-text')
           .onClick(() => this.runForFile(file, 'draft', '正在生成公众号草稿...'));
       });
       menu.addItem((item) => {
-        item.setTitle('GZ Sync：仅同步到飞书')
+        item.setTitle('GZH Sync：仅同步到飞书')
           .setIcon('files')
           .onClick(() => this.runForFile(file, 'feishu', '正在同步到飞书...'));
       });
@@ -108,21 +108,21 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
     const env = this.createCliEnv();
     const cli = this.resolveCli(vaultBasePath, env);
     if (!cli) {
-      await this.recordSyncFailure(file, command, '找不到 GZ Sync CLI。请在插件设置里填写项目根目录，或先运行 npm link 安装全局 gz 命令。');
-      new Notice('找不到 GZ Sync CLI：已把处理建议写入当前文章。', 12000);
+      await this.recordSyncFailure(file, command, '找不到 GZH Sync CLI。请在插件设置里填写项目根目录，或先运行 npm link 安装全局 gz 命令。');
+      new Notice('找不到 GZH Sync CLI：已把处理建议写入当前文章。', 12000);
       return;
     }
 
     const startedAt = new Date();
     await this.markSyncStarted(file, command, startedAt);
     this.setStatus(`同步中：${this.commandLabel(command)}`);
-    new Notice(`${pendingMessage} 已写入文章属性，可稍后查看 GZ Sync 日志。`, 8000);
+    new Notice(`${pendingMessage} 已写入文章属性，可稍后查看 GZH Sync 日志。`, 8000);
     execFile(cli.executable, [...cli.args, command, absolutePath], { cwd: cli.cwd, env, maxBuffer: 1024 * 1024 * 10 }, async (error, stdout, stderr) => {
       if (error) {
         const message = (stderr || stdout || error.message).trim();
         await this.recordSyncFailure(file, command, message);
         this.setStatus(`失败：${this.commandLabel(command)}`);
-        new Notice('GZ Sync 失败：已把错误和下一步写入当前文章。', 12000);
+        new Notice('GZH Sync 失败：已把错误和下一步写入当前文章。', 12000);
         return;
       }
       await this.recordSyncSuccess(file, command, stdout);
@@ -199,7 +199,7 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
   }
 
   setStatus(text) {
-    if (this.statusBar) this.statusBar.setText(`GZ Sync：${text}`);
+    if (this.statusBar) this.statusBar.setText(`GZH Sync：${text}`);
   }
 
   commandLabel(command) {
@@ -294,7 +294,7 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
   }
 
   async appendSyncLog(file, lines, date = new Date()) {
-    const heading = '## GZ Sync 日志';
+    const heading = '## GZH Sync 日志';
     const stamp = this.formatTime(date);
     const entry = [`- ${stamp}`, ...lines.map((line) => `  - ${line}`)].join('\n');
     await this.app.vault.process(file, (content) => {
@@ -323,7 +323,7 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
     }
     return {
       title: normalized.slice(0, 180) || '未知错误',
-      fix: '查看本文底部 GZ Sync 日志；确认凭证、权限、IP 白名单和网络后重试。'
+      fix: '查看本文底部 GZH Sync 日志；确认凭证、权限、IP 白名单和网络后重试。'
     };
   }
 
@@ -373,7 +373,7 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
     } catch {
       // Fall through to raw output notice.
     }
-    new Notice(`GZ Sync 完成：${stdout.trim().slice(0, 500)}`, 12000);
+    new Notice(`GZH Sync 完成：${stdout.trim().slice(0, 500)}`, 12000);
   }
 };
 
@@ -386,7 +386,7 @@ class WechatTypesetterSettingTab extends PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    new Setting(containerEl).setName('GZ Sync').setHeading();
+    new Setting(containerEl).setName('GZH Sync').setHeading();
     containerEl.createEl('p', { text: 'CLI 只负责执行同步；公众号和飞书开放平台仍需要各自的应用凭证。凭证会保存在当前 Obsidian vault 的插件数据里。' });
 
     this.addText('项目根目录', '可选；包含 package.json 和 dist/src/cli.js 的目录。留空时自动尝试插件目录和全局 gz 命令。', 'projectRoot');

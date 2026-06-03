@@ -4,7 +4,7 @@ argument-hint: ""
 allowed-tools: [Bash, Read, Glob]
 ---
 
-# 检查 GZ Sync 配置
+# 检查 GZH Sync 配置
 
 请全程用中文回复。
 

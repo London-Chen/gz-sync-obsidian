@@ -1,24 +1,24 @@
-# GZ Sync Obsidian 插件
+# GZH Sync Obsidian 插件
 
-这是一个薄入口插件，核心逻辑在本地 GZ Sync CLI 中。
+这是一个薄入口插件，核心逻辑在本地 GZH Sync CLI 中。
 
 ## 使用入口
 
 启用插件后，可以通过以下方式同步：
 
 1. 左侧 ribbon 纸飞机按钮：同步当前文章到公众号和飞书。
-2. 编辑器正文区域右键：选择 `GZ Sync：同步到公众号和飞书`。
-3. 文件列表里右键 Markdown 文件：选择 `GZ Sync：同步到公众号和飞书`。
-4. 命令面板：运行 `GZ Sync：同步当前文章到公众号和飞书`。
+2. 编辑器正文区域右键：选择 `GZH Sync：同步到公众号和飞书`。
+3. 文件列表里右键 Markdown 文件：选择 `GZH Sync：同步到公众号和飞书`。
+4. 命令面板：运行 `GZH Sync：同步当前文章到公众号和飞书`。
 
 也支持单独同步：
 
-- `GZ Sync：仅同步到公众号草稿箱`
-- `GZ Sync：仅同步到飞书`
+- `GZH Sync：仅同步到公众号草稿箱`
+- `GZH Sync：仅同步到飞书`
 
 ## 配置
 
-打开 Obsidian 设置里的 `GZ Sync` 插件设置页，填写：
+打开 Obsidian 设置里的 `GZH Sync` 插件设置页，填写：
 
 - 项目根目录，可选；留空时会自动尝试插件目录和全局 `gz` 命令
 - 公众号 AppID / AppSecret
@@ -34,8 +34,8 @@ CLI 绑定只是让插件能调用同步程序，不等于已经获得公众号�
 点击同步后，插件不只显示临时 Notice，还会把状态写入当前文章：
 
 - Properties：`gz_sync_status`、`gz_sync_updated_at`、`gz_feishu_url`、`gz_wechat_media_id` 等。
-- 文档底部：`GZ Sync 日志`，记录开始、成功、失败和下一步。
-- 底部状态栏：显示 `GZ Sync：同步中/成功/失败`。
+- 文档底部：`GZH Sync 日志`，记录开始、成功、失败和下一步。
+- 底部状态栏：显示 `GZH Sync：同步中/成功/失败`。
 
 这样即使弹窗消失，用户也能在当前文章里看到同步进度、结果链接和错误处理建议。
 

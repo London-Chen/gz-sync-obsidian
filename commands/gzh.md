@@ -1,10 +1,10 @@
 ---
-description: "GZ Sync 主入口：配置、检查、预览、同步文章到公众号草稿箱和飞书"
+description: "GZH Sync 主入口：配置、检查、预览、同步文章到公众号草稿箱和飞书"
 argument-hint: "[setup|check|preview|sync] [markdown-file]"
 allowed-tools: [Bash, Read, Write, Edit, Glob]
 ---
 
-# GZ Sync 主入口
+# GZH Sync 主入口
 
 请全程用中文回复。用户输入的是：`$ARGUMENTS`
 

@@ -1,6 +1,6 @@
-# GZ Sync
+# GZH Sync
 
-GZ Sync 是一个本地 CLI + Obsidian 插件，用来把 Obsidian / Markdown 文章一键同步到：
+GZH Sync 是一个本地 CLI + Obsidian 插件，用来把 Obsidian / Markdown 文章一键同步到：
 
 - 微信公众号草稿箱
 - 飞书云文档
@@ -20,7 +20,7 @@ gz sync "文章.md"
 Obsidian：
 
 ```text
-命令面板 -> GZ Sync：同步当前文章到公众号和飞书
+命令面板 -> GZH Sync：同步当前文章到公众号和飞书
 ```
 
 也可以分开执行：
@@ -95,8 +95,8 @@ obsidian-plugin -> 你的 vault/.obsidian/plugins/gz-sync
 
 1. 打开“设置 -> 第三方插件”。
 2. 关闭安全模式，或允许第三方插件。
-3. 启用 `GZ Sync`。
-4. 打开 `GZ Sync` 插件设置页。
+3. 启用 `GZH Sync`。
+4. 打开 `GZH Sync` 插件设置页。
 5. 填写项目根目录、公众号凭证、飞书凭证。
 
 项目根目录示例：
@@ -293,7 +293,7 @@ FEISHU_FOLDER_TOKEN=可选，目标飞书文件夹 token
 打开：
 
 ```text
-Obsidian 设置 -> 第三方插件 -> GZ Sync -> 设置
+Obsidian 设置 -> 第三方插件 -> GZH Sync -> 设置
 ```
 
 填写：
@@ -314,14 +314,14 @@ Obsidian 设置 -> 第三方插件 -> GZ Sync -> 设置
 打开一篇 Markdown 文章，然后打开 Obsidian 命令面板：
 
 ```text
-GZ Sync：同步当前文章到公众号和飞书
+GZH Sync：同步当前文章到公众号和飞书
 ```
 
 也可以只同步一边：
 
 ```text
-GZ Sync：仅发送当前文章到公众号草稿箱
-GZ Sync：仅同步当前文章到飞书
+GZH Sync：仅发送当前文章到公众号草稿箱
+GZH Sync：仅同步当前文章到飞书
 ```
 
 ## CLI 使用教程
