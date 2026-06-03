@@ -57,8 +57,8 @@ gz preview "文章.md"   # 只生成本地预览
 ### 方式一：本地 CLI
 
 ```bash
-git clone https://github.com/London-Chen/gz_sync.git
-cd gz_sync
+git clone https://github.com/London-Chen/gz-sync-obsidian.git
+cd gz-sync-obsidian
 npm install
 npm run build
 npm link
@@ -88,7 +88,7 @@ npm run build
 然后复制插件目录：
 
 ```text
-obsidian-plugin -> 你的 vault/.obsidian/plugins/wechat-typesetter
+obsidian-plugin -> 你的 vault/.obsidian/plugins/gz-sync-obsidian
 ```
 
 在 Obsidian 里：
@@ -102,7 +102,7 @@ obsidian-plugin -> 你的 vault/.obsidian/plugins/wechat-typesetter
 项目根目录示例：
 
 ```text
-/path/to/gz_sync
+/path/to/gz-sync-obsidian
 ```
 
 ## 为什么绑定 CLI 后还要填 AppID / Secret？

@@ -153,7 +153,7 @@ module.exports = class WechatTypesetterPlugin extends Plugin {
 
   getPluginDir(vaultBasePath) {
     if (this.manifest && this.manifest.dir) return path.join(vaultBasePath, this.manifest.dir);
-    const pluginId = this.manifest && this.manifest.id ? this.manifest.id : 'wechat-typesetter';
+    const pluginId = this.manifest && this.manifest.id ? this.manifest.id : 'gz-sync-obsidian';
     const configDir = this.app.vault.configDir || '.obsidian';
     return path.join(vaultBasePath, configDir, 'plugins', pluginId);
   }
